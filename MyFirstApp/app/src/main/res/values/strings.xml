@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">My First App</string>
+    <string name="wish_users">Hello World!</string>
+</resources>
