@@ -161,5 +161,207 @@ fun main(){
     d1.display()
 }
 ```
+### Inheritance in kotlin
+
+Inheritance is the process of acquring the properties and behaviors of one class into another class. 
+
+Inheritance is primarily used for Re-Usability of the code
+
+**Important Point to Note:**
+
+- All classes in kotlin have a common super class, `Any`, which is the default super class for a class with no super class defined. 
+
+```kotlin
+class ABCD{
+    // The default super class will be ANY
+}
+```
+
+`Any` class has got three methods
+- equals()
+- hashCode()
+- toString()
+
+```koltin
+package com.nareshtech.myfirstapp
+
+import java.util.Scanner
+
+class Dog(var name:String?, var age:Int?, var weight:Double?){
+
+    constructor(name:String):this(name, 0,0.0){
+        println("Remember that you only entered the name of the dog")
+    }
+
+    constructor(name:String, age:Int):this(name, age,0.0){
+        println("Remember that you only entered the name & age of the dog")
+    }
+
+    fun display(){
+        println("$name of age $age is of $weight weight")
+    }
+}
+
+fun main(){
+    val d = Dog("Tommy", 18, 18.45)
+    val d1 = Dog("Tommy", 18, 18.45)
+
+    println(d.equals(d1))
+    println(d.toString())
+    println(d1.toString())
+    println(d.hashCode())
+    println(d1.hashCode())
+}
+```
+
+**Important Point to Note:**
+In kotlin, all classes are `final` by default.If you want to subclass a class you use `open` keyword to make the class subclassable. 
+
+```Kotlin'
+class Pavan{
+    // This class is final which cannot be subclassed. 
+}
+```
+
+```kotlin
+open class Pavan{
+    // This class can be extended by subclasses. 
+}
+```
+In Java, we use `extends` keyword to create a subclass. In kotlin we use `:` instead of `extends`.
+
+```kotlin
+open class Pavan{
+
+}
+
+class Kumar:Pavan(){
+
+}
+```
+**Example**
+
+```kotlin
+open class A(var name:String?, var age:Int?){
+    fun display(){
+        print("$name $age ")
+    }
+}
+
+class B(var n:String?, var a:Int?, var salary:Int?):A(n,a){
+    fun display2(){
+        display()
+        println("$salary")
+    }
+}
+
+fun main(){
+    val b = B("Pavan",18,10000)
+    b.display2()
+}
+```
+
+### Encapsulation
+
+Encapsulation refers to the bundling of data and methods that operate on data with in a single unit, is called as class. 
+
+Encapsulation is a way to hide the implementation details of a class from outside access and only exposing public interfaces that can be used to interact with the class. 
+
+***Modifiers in Kotlin:***
+- **private** - the element that is declared private cannot be accessed from outside the kotlin file that is defined in. These elements can only be accessed in the same place where they are defined. 
+- **public** - Elements can be accessed from anywhere. 
+- **protected** - Same as private except that subclasses can access the class/interface elements. 
+- **internal** - Anything in the module (folder) can be accessed. 
+
+```kotlin
+class Internals{
+    internal  var a = 10
+}
+
+fun main(){
+    val i = Internals()
+    println(i.a)
+}
+```
+
+```kotlin
+class BankAccount(private var balance:Double){
+    fun deposit(amount:Double){
+        if(amount>0){
+            balance += amount
+            println("Deposited $amount in your account")
+            println("The new Balance is $balance")
+        }else{
+            println("The amount should be a positive for deposit")
+        }
+    }
+    
+    fun withdraw(amount:Double){
+        if(amount>0 && amount<=balance){
+            balance -= amount
+            println("Withdrawal successful, the current balance is $balance")
+        }else{
+            println("Insufficient balance")
+        }
+    }
+    
+    fun getBalance():Double{
+        return balance
+    }
+}
+```
+
+By using encapsulation, the internal state of the `BankAccount` class is protected from direct access and mofifications from outside the class. 
+Only the methods provided by the class can modify the balance, ensuring that the class maintains control over how the balance is accessed and changed. This help maintain integrity of the data and prevents unintended side effects. 
+
+If a class with a certain functionality is defined in a different package and the elements in the class are accessible either directly (if they are declared public) or with the help of their helper methods (incase of private or protected modifiers), you can write the import statements to import that module or a specific class. 
+
+If a class in the same module(Package) needs to be accessed, you can directly access it. No need of Import statements. 
 
 
+### Polymorphism
+Existence in multiple forms is called polymorphism
+
+- Overloading (compile time polymorphism)
+- Overriding (runtime Polymorphism)
+  
+**Overloading**
+```kotlin
+fun sum(a:Int, b:Int):Int{
+    return a+b
+}
+
+fun sum(a:Int, b:Int, c:Int):Int{
+    return a+b+c
+}
+
+fun sum(a:Int, b:Double):Double{
+    return a+b
+}
+fun main() {
+    println(sum(10,20))
+    println(sum(10,20,30))
+    println(sum(10,30.45))
+}
+```
+
+**Overriding**
+
+The function that has `open` keyword can only overridden. 
+
+```koltin
+open class First{
+    open fun sum(a:Int,b:Int) = a+b
+    fun sum(a:Int, b:Int, c:Int) = sum(a,b)+c
+}
+
+class Second:First(){
+    override fun sum(a:Int, b:Int) = a*b
+}
+
+fun main() {
+    var s = Second()
+    println(s.sum(10,20))
+    println(s.sum(10,20,30))
+}
+```
