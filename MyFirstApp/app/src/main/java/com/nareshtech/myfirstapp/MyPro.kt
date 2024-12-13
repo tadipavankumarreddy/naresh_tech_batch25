@@ -2,17 +2,10 @@ package com.nareshtech.myfirstapp
 
 import java.util.Scanner
 
-open class First{
-    open fun sum(a:Int,b:Int) = a+b
-    fun sum(a:Int, b:Int, c:Int) = sum(a,b)+c
-}
 
-class Second:First(){
-    override fun sum(a:Int, b:Int) = a*b
-}
-
-fun main() {
-    var s = Second()
-    println(s.sum(10,20))
-    println(s.sum(10,20,30))
+fun main(){
+   // filter, map & sortedBy they are especially useful for a collection of items.
+    val numbers = listOf(5,6,45,1,0,36)
+    val sorted = numbers.sortedByDescending { it }
+    println(sorted)
 }

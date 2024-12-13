@@ -365,3 +365,267 @@ fun main() {
     println(s.sum(10,20,30))
 }
 ```
+
+### Abstract Classes in Kotlin
+Abstract classes are those classes defined with abstract keyword. In an abstract class you can have methods with body and methods without a body.
+
+Abstract classes cannot be instantiated on its own and must be subclassed.
+- It can have Abstract methods (unimplemented)
+- It can have concrete methods (defined)
+
+```kotlin
+abstract class RBI{
+    /***This function is not open to override - so all the banks that
+     * are undertaken by RBI should be implementing the same
+     * interst rate***/
+    fun homeLoanInterestRate():Double{
+        return 7.65
+    }
+
+    abstract fun personalLoan():Double
+}
+
+class SBI:RBI(){
+    override fun personalLoan():Double{
+        return 6.2
+    }
+}
+
+class ICICI:RBI(){
+    override fun personalLoan():Double{
+        return 7.8
+    }
+}
+
+fun main(){
+    val s:SBI = SBI()
+    println(s.homeLoanInterestRate())
+    println(s.personalLoan())
+}
+```
+
+
+### Interfaces in Kotlin
+
+Interfaces are similar to interfaces in java, but with some additonal features and more concise syntax.
+
+**Declare an Interface**
+
+```kotlin
+interface MyInterface{
+    fun myMethod()
+    val myProperty:String
+}
+```
+**Implementing an Inteface**
+
+Classes in kotlin can implement one or other interfaces using `:` symbol.
+
+```koltin
+interface MyInterface{
+    fun myMethod()
+    val myProperty:String
+}
+
+class MyClass:MyInterface{
+    override val myProperty:String = "Hello"
+    override fun myMethod(){
+        println("My Method Implementation")
+    }
+}
+fun main() {
+    val m = MyClass()
+    m.myMethod()
+}
+```
+
+#### Default Implementation
+Kotlin interfaces can provide default implementation for Methods. 
+
+```kotlin
+interface MyInterface{
+    fun myMethod(){
+        println("This is default implementation")
+    }
+}
+```
+
+With interfaces, we can implement Multiple Inheritance
+
+```kotlin
+interface Animal{
+    val name:String
+    fun sound():String
+    
+    //default Implementation
+    fun printDetails(){
+        println("Animal: $name, sound: ${sound()}")
+    }
+}
+
+class Dog(override val name:String):Animal{
+    override fun sound():String = "Bark"
+}
+
+class Cat(override val name:String):Animal{
+    override fun sound():String = "Meow"
+}	
+fun main() {
+	val dog = Dog("Buddy")
+    dog.printDetails()
+}
+```
+
+### **Lambdas** and **Higher-Order Functions** in Kotlin.
+
+---
+
+### **What are Lambdas?**
+A **lambda expression** is a function that can be passed as a parameter and doesn't need to be declared explicitly.
+
+#### **Syntax of a Lambda**
+```kotlin
+val lambdaName: (InputType) -> ReturnType = { arguments -> body }
+```
+
+#### **Example**
+```kotlin
+val greet: (String) -> Unit = { name -> println("Hello, $name!") }
+
+greet("Kotlin")  // Output: Hello, Kotlin!
+```
+
+---
+
+### **Simplified Lambda Syntax**
+Kotlin allows us to simplify lambdas further.
+
+#### **Remove Explicit Types**
+```kotlin
+val greet = { name: String -> println("Hello, $name!") }
+greet("Kotlin")  // Output: Hello, Kotlin!
+```
+
+#### **Single Parameter Shortcut (`it`)**
+When there's only one parameter, you can use `it`:
+```kotlin
+val square = { it: Int -> it * it }
+println(square(5))  // Output: 25
+```
+
+---
+
+### **Higher-Order Functions**
+A **higher-order function** is a function that takes another function as a parameter or returns a function.
+
+#### **Example 1: Passing a Lambda as a Parameter**
+```kotlin
+fun calculate(a: Int, b: Int, operation: (Int, Int) -> Int): Int {
+    return operation(a, b)
+}
+
+val sum = calculate(5, 3) { x, y -> x + y }
+println(sum)  // Output: 8
+```
+
+**Explanation**:
+1. `calculate` takes two integers (`a` and `b`) and a lambda function `operation`.
+2. `operation` performs an action on `a` and `b`.
+
+---
+
+### **Returning a Function**
+A function can return another function.
+
+#### **Example**
+```kotlin
+fun createMultiplier(multiplier: Int): (Int) -> Int {
+    return { number -> number * multiplier }
+}
+
+val timesThree = createMultiplier(3)
+println(timesThree(5))  // Output: 15
+```
+
+**Explanation**:
+1. `createMultiplier` returns a lambda that multiplies its input by `multiplier`.
+2. `timesThree` becomes a function that multiplies any number by 3.
+
+---
+
+### **Common Use Cases**
+#### **Example 1: Filtering a List**
+```kotlin
+val numbers = listOf(1, 2, 3, 4, 5, 6)
+val evenNumbers = numbers.filter { it % 2 == 0 }
+println(evenNumbers)  // Output: [2, 4, 6]
+```
+
+#### **Example 2: Mapping a List**
+```kotlin
+val doubled = numbers.map { it * 2 }
+println(doubled)  // Output: [2, 4, 6, 8, 10, 12]
+```
+
+#### **Example 3: Sorting a List**
+```kotlin
+val names = listOf("Alice", "Bob", "Charlie")
+val sortedNames = names.sortedBy { it.length }
+println(sortedNames)  // Output: [Bob, Alice, Charlie]
+```
+
+---
+
+### **Inline Higher-Order Functions**
+Kotlin allows you to use `inline` for higher-order functions to improve performance by avoiding function object creation.
+
+#### **Example**
+```kotlin
+inline fun inlineCalculate(a: Int, b: Int, operation: (Int, Int) -> Int): Int {
+    return operation(a, b)
+}
+
+val result = inlineCalculate(10, 5) { x, y -> x - y }
+println(result)  // Output: 5
+```
+
+---
+
+### **Working with `let`, `run`, `apply`, and `also`**
+Kotlin provides several higher-order functions like `let`, `run`, `apply`, and `also` to make your code concise.
+
+#### **Using `let`**
+```kotlin
+val name = "Kotlin"
+name.let { println("Hello, $it!") }
+```
+
+#### **Using `apply`**
+```kotlin
+val person = Person().apply {
+    name = "John"
+    age = 30
+}
+```
+
+---
+
+### **Practical Example**
+Here’s a complete example using lambdas and higher-order functions:
+```kotlin
+fun main() {
+    val numbers = listOf(1, 2, 3, 4, 5)
+
+    // Filtering even numbers
+    val evenNumbers = numbers.filter { it % 2 == 0 }
+
+    // Mapping to squares
+    val squares = evenNumbers.map { it * it }
+
+    println(squares)  // Output: [4, 16]
+}
+```
+
+---
+END
+---
