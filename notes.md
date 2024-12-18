@@ -7,8 +7,13 @@
 ### UI Components
 - [Constraint Layout](https://developer.android.com/develop/ui/views/layout/constraint-layout)
 - EditText (to read input from the user)
-- RadioGroup & RadioButton (to allow the user to choose one option from the available options)
+- [RadioGroup & RadioButton](https://developer.android.com/develop/ui/views/components/radiobutton) (to allow the user to choose one option from the available options)
 - CheckBoxes (to allow the user to choose multiple options from the available options)
-- Spinner (to display the items in dropdown - Dropdown menu)
+- [Spinner](https://developer.android.com/develop/ui/views/components/spinner#:~:text=Spinners%20provide%20a%20quick%20way,values%20the%20user%20can%20select.) (to display the items in dropdown - Dropdown menu)
 - Switch (To let the user toggle between on and off states)'
 - Button
+
+#### Assignment
+Extend the logic of the Register me app, by adding an email address edittext box to read the email address of the user. Please validate the email address by using reg ex. 
+
+After completing the assignment drop an email to `pavankreddy.t@gmail.com`
