@@ -17,3 +17,17 @@
 Extend the logic of the Register me app, by adding an email address edittext box to read the email address of the user. Please validate the email address by using reg ex. 
 
 After completing the assignment drop an email to `pavankreddy.t@gmail.com`
+
+### ListView
+Listview is a view in android that displays vertically scrollable list of items. It's one of the most commonly used UI Components for displaying a collection of data in an organized manner. 
+
+**Key Features**
+- Displays a scrollable list of items
+- Optimizes memory usage to a certain extent, but not fully. 
+- Requires an Adapter to bind data to the list. 
+**Components of a listview**
+1. ListView
+2. ArrayAdapter / SingleAdapter / BaseAdapter/ CursorAdapter
+
+[Official Document Link](https://developer.android.com/reference/android/widget/ListView)
+
