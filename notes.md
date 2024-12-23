@@ -67,3 +67,172 @@ The activity lifecycle refers to the various states that an activity can go thro
 
 [Official Documentation](https://developer.android.com/guide/components/intents-filters)
 
+Here's a detailed explaination on how to use `ActivityResultLauncher` to send data using an intent and receive a reply:
+
+---
+---
+
+### **Step 1: Set Up the Launcher in the Main Activity**
+We will use `ActivityResultLauncher` to start the second activity and handle the result asynchronously.
+
+#### **MainActivity.kt**
+
+```kotlin
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import android.widget.Button
+import android.widget.TextView
+
+class MainActivity : AppCompatActivity() {
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var resultTextView: TextView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val sendDataButton: Button = findViewById(R.id.sendDataButton)
+        resultTextView = findViewById(R.id.resultTextView)
+
+        // Register the launcher
+        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val replyData = result.data?.getStringExtra("replyKey") ?: "No reply received"
+                resultTextView.text = replyData
+            }
+        }
+
+        // Set onClickListener to launch SecondActivity
+        sendDataButton.setOnClickListener {
+            val intent = Intent(this, SecondActivity::class.java)
+            intent.putExtra("dataKey", "Hello from MainActivity!")
+            resultLauncher.launch(intent)
+        }
+    }
+}
+```
+
+---
+
+### **Step 2: Set Up the Second Activity**
+This activity receives the data sent by `MainActivity` and sends back a reply.
+
+#### **SecondActivity.kt**
+
+```kotlin
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+
+class SecondActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_second)
+
+        val receivedData = intent.getStringExtra("dataKey")
+        val replyEditText: EditText = findViewById(R.id.replyEditText)
+        val replyButton: Button = findViewById(R.id.replyButton)
+
+        // Set received data to a TextView (optional)
+        findViewById<TextView>(R.id.receivedDataTextView).text = receivedData
+
+        // Send reply back to MainActivity
+        replyButton.setOnClickListener {
+            val replyIntent = Intent()
+            replyIntent.putExtra("replyKey", replyEditText.text.toString())
+            setResult(RESULT_OK, replyIntent)
+            finish() // Close the activity
+        }
+    }
+}
+```
+
+---
+
+### **Step 3: Layout Files**
+
+#### **activity_main.xml**
+
+```xml
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/sendDataButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send Data to SecondActivity" />
+
+    <TextView
+        android:id="@+id/resultTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Result will be shown here"
+        android:textSize="16sp" />
+</LinearLayout>
+```
+
+#### **activity_second.xml**
+
+```xml
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/receivedDataTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Received data will appear here"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/replyEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Type your reply here" />
+
+    <Button
+        android:id="@+id/replyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send Reply" />
+</LinearLayout>
+```
+
+---
+
+### **How It Works**
+1. **MainActivity**
+   - Launches `SecondActivity` with some initial data using `ActivityResultLauncher`.
+   - Handles the reply asynchronously when `SecondActivity` finishes.
+
+2. **SecondActivity**
+   - Receives the data and displays it.
+   - Sends back a reply using `setResult`.
+
+---
+
+### **Output**
+- **MainActivity:** Displays the reply received from `SecondActivity`.
+- **SecondActivity:** Shows the data sent by `MainActivity` and lets the user type and send a reply.
+---
+
+
+
+[For Common Intents](https://developer.android.com/guide/components/intents-common)
+
