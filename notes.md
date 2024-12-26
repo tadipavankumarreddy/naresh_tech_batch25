@@ -236,3 +236,25 @@ class SecondActivity : AppCompatActivity() {
 
 [For Common Intents](https://developer.android.com/guide/components/intents-common)
 
+#### Assignment
+Please try workig with two more implicit intents (from the common intents) section. 
+
+### Alert Dialogs in Android
+[official Documentation](https://developer.android.com/develop/ui/views/components/dialogs)
+
+- Basically used to throw alerts to the user
+- Consists of the following components 
+  - Icon
+  - Title
+  - messages
+  - Three buttons
+    - Positive
+    - Negative
+    - Neutral
+- We use AlertDialog.Builder class to set up the aforestated items on the alert dialog box. 
+
+#### Assignment 
+- TASK in Android. 
+- Try to override the default backbutton behavior. When the back button on your application is tapped, do not close the app. Instead, show an alert asking the user if the user really wants to exit your application or not. 
+
+
