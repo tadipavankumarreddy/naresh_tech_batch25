@@ -257,4 +257,229 @@ Please try workig with two more implicit intents (from the common intents) secti
 - TASK in Android. 
 - Try to override the default backbutton behavior. When the back button on your application is tapped, do not close the app. Instead, show an alert asking the user if the user really wants to exit your application or not. 
 
+### RecyclerView in Android
+
+Please visit the presentation [here](https://docs.google.com/presentation/d/1nFJqH0OSSZmjaycRzEGE6vvsm6jlxghQyoO15KKbkwc/edit?usp=sharing)
+
+Refer to the official documentation [here](https://developer.android.com/develop/ui/views/layout/recyclerview)
+
+---
+
+## Step-by-Step Implementation of RecyclerView
+
+---
+
+### **Step 1: Prepare Data**
+We start by creating a data class to define the structure of our data. For this example, we'll display a list of actors with their images, names, and years of birth.
+
+#### Code:
+```kotlin
+data class Actor(val image: Int, val name: String, val yob: Int)
+
+val actors: MutableList<Actor> = mutableListOf()
+
+actors.add(Actor(R.drawable.alluarjun, "Allu Arjun", 1982))
+actors.add(Actor(R.drawable.chiranjeevi, "Chiranjeevi", 1955))
+actors.add(Actor(R.drawable.amitabh, "Amitabh Bachchan", 1942))
+actors.add(Actor(R.drawable.kamal, "Kamal Hassan", 1954))
+actors.add(Actor(R.drawable.rana, "Rana Daggubati", 1984))
+actors.add(Actor(R.drawable.prabhas, "Prabhas", 1979))
+actors.add(Actor(R.drawable.ranbir, "Ranbir Kapoor", 1982))
+actors.add(Actor(R.drawable.salman, "Salman Khan", 1965))
+actors.add(Actor(R.drawable.charan, "Ram Charan", 1985))
+actors.add(Actor(R.drawable.vijay, "Vijay", 1975))
+```
+
+---
+
+### **Step 2: Prepare the Layout Design for Each Item**
+Create an XML layout for how each item in the RecyclerView should look. 
+
+#### File: `res/layout/item_actor.xml`
+```xml
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/imgActor"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/alluarjun"
+        android:layout_marginEnd="8dp" />
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvActorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Allu Arjun"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvActorYOB"
+            android:layout_width="wrap_content"
+            android:text="1982"
+            android:layout_height="wrap_content"
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>
+```
+
+---
+
+### **Step 3: Add RecyclerView to the Main Layout**
+Add a RecyclerView in your activity or fragment layout file.
+
+#### File: `res/layout/activity_main.xml`
+```xml
+<androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+```
+
+---
+
+### **Step 4: Create the Adapter**
+The adapter binds the data to the views defined in the `item_actor.xml` file.
+
+#### File: `ActorAdapter.kt`
+```kotlin
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter
+
+/** Why do we need an Adapter ?
+ * - We have multiple items to show on the recyclerview
+ * - We are supposed to use an adapter to populate these items on the recyclerview
+ * **/
+class ActorAdapter(private val context:Context, private val actors:MutableList<MainActivity.Actors>) :
+    Adapter<ActorAdapter.ActorViewHolder>() {
+
+    /**
+     * Why do we need a ViewHolder ?
+     * For each item on the recyclerview, we have three more views. ViewHolder is a class that holds these three views.*/
+    inner class ActorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val imageView:ImageView = itemView.findViewById(R.id.imgActor)
+        val textViewName:TextView = itemView.findViewById(R.id.tvActorName)
+        val textViewYob:TextView = itemView.findViewById(R.id.tvActorYOB)
+    }
+
+    /**
+     * This method is called when the recyclerview needs a new ViewHolder.
+     * */
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActorViewHolder {
+        val v = LayoutInflater.from(context).inflate(R.layout.one_item_design, parent, false)
+        return ActorViewHolder(v)
+    }
+
+    /**
+     * This method is called when the recyclerview needs to know the size of the data set.*/
+    override fun getItemCount(): Int {
+        return actors.size
+    }
+
+    /** This method is called when the recyclerview needs to populate the data on the views.*/
+    override fun onBindViewHolder(holder: ActorViewHolder, position: Int) {
+        holder.imageView.setImageResource(actors[position].image)
+        holder.textViewName.text = actors[position].name
+        holder.textViewYob.text = "${actors[position].yob}"
+    }
+
+}
+```
+
+---
+
+### **Step 5: Set Up the Adapter**
+Initialize the RecyclerView and set the adapter.
+
+#### File: `MainActivity.kt`
+```kotlin
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+
+        // Sample Data
+        val actors = mutableListOf(
+            Actor(R.drawable.alluarjun, "Allu Arjun", 1982),
+            // Add remaining actors
+        )
+
+        // Set Adapter
+        recyclerView.adapter = ActorAdapter(actors) { actor ->
+            Toast.makeText(this, "Clicked: ${actor.name}", Toast.LENGTH_SHORT).show()
+        }
+
+        // Set Layout Manager
+        recyclerView.layoutManager = LinearLayoutManager(this)
+    }
+}
+```
+
+---
+
+### **Step 6: Set Up the Layout Manager**
+The layout manager is responsible for positioning the items. Common layout managers include:
+
+- **LinearLayoutManager** (vertical or horizontal list)
+- **GridLayoutManager** (grid of items)
+- **StaggeredGridLayoutManager** (staggered grids)
+
+#### Code:
+```kotlin
+recyclerView.layoutManager = LinearLayoutManager(this)
+// For grid layout:
+// recyclerView.layoutManager = GridLayoutManager(this, 2)
+```
+
+---
+
+### **Step 7: Add Click Listeners**
+The `onItemClick` lambda in the adapter handles item click events. This allows you to respond to user interactions dynamically.
+
+#### Example:
+```kotlin
+recyclerView.adapter = ActorAdapter(actors) { actor ->
+    Toast.makeText(this, "You selected ${actor.name}, born in ${actor.yob}.", Toast.LENGTH_SHORT).show()
+}
+```
+
+---
+
+### Final Notes:
+- **Performance Tip:** Use `setHasFixedSize(true)` on the RecyclerView for better performance if the list size does not change.
+- **Customization:** You can enhance the adapter for more complex layouts or features like filtering or animations.
+- **Practice:** add more functionality, such as long clicks, swiping to delete, or loading data from a JSON file.
+
+#### Assignment:
+- Work with cardview to elevate the design of each item on the recyclerview
+- Work with click listeners (when an item is clicked on the recyclerview do something)
+- Create another application that shows the list of your favorite food items along with number of calories per serving. Use ChatGpt or gemini to get the data. 
+
+
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?><!--TODO 2: Create a design template for each item on the recyclerview-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/imgActor"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        android:layout_marginEnd="8dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/alluarjun" />
+
+
+    <TextView
+        android:id="@+id/tvActorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Allu Arjun"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvActorYOB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1982"
+        android:textSize="14sp" />
+
+</LinearLayout>

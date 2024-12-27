@@ -5,6 +5,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,5 +35,14 @@ class MainActivity : AppCompatActivity() {
         actors.add(Actors(R.drawable.salman,"Salman Khan", 1965))
         actors.add(Actors(R.drawable.charan,"Ram Charan", 1985))
         actors.add(Actors(R.drawable.vijay,"Vijay", 1975))
+
+        // TODO 5: set up the adapter on the recyclerview
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
+        recyclerView.adapter = ActorAdapter(this, actors)
+
+        // TODO 6: Set up the LayoutManager on the recyclerview
+        /*recyclerView.layoutManager = LinearLayoutManager(this)*/
+        /*recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)*/
+        recyclerView.layoutManager = GridLayoutManager(this,2)
     }
 }
