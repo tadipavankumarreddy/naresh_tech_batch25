@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?><!--TODO 2: Create a design template for each item on the recyclerview-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:backgroundTint="#E0E0E0"
+    android:elevation="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp"
+    android:layout_margin="8dp"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="8dp">
@@ -10,7 +22,6 @@
         android:id="@+id/imgActor"
         android:layout_width="100dp"
         android:layout_height="150dp"
-        android:layout_marginEnd="8dp"
         android:scaleType="centerCrop"
         android:src="@drawable/alluarjun" />
 
@@ -20,6 +31,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Allu Arjun"
+        android:gravity="center"
+        android:textColor="#011043"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -28,6 +41,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1982"
-        android:textSize="14sp" />
+        android:textStyle="italic"
+        android:textColor="#6B0106"
+        android:textSize="18sp" />
 
 </LinearLayout>
+</androidx.cardview.widget.CardView>

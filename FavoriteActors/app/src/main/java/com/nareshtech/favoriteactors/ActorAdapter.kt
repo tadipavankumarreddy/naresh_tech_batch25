@@ -1,6 +1,7 @@
 package com.nareshtech.favoriteactors
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
+import com.google.android.material.snackbar.Snackbar
 
 // TODO 4: Create an Adapter for your Recyclerview.
 
@@ -43,6 +45,12 @@ class ActorAdapter(private val context:Context, private val actors:MutableList<M
 
     /** This method is called when the recyclerview needs to populate the data on the views.*/
     override fun onBindViewHolder(holder: ActorViewHolder, position: Int) {
+        holder.itemView.setOnClickListener { v->
+            val actor: MainActivity.Actors = actors.get(position)
+            val i = Intent(context, DetailsActivity::class.java)
+            i.putExtra("DATA",actor)
+            context.startActivity(i)
+        }
         holder.imageView.setImageResource(actors[position].image)
         holder.textViewName.text = actors[position].name
         holder.textViewYob.text = "${actors[position].yob}"

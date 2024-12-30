@@ -263,7 +263,7 @@ Please visit the presentation [here](https://docs.google.com/presentation/d/1nFJ
 
 Refer to the official documentation [here](https://developer.android.com/develop/ui/views/layout/recyclerview)
 
----
+--
 
 ## Step-by-Step Implementation of RecyclerView
 
@@ -480,6 +480,14 @@ recyclerView.adapter = ActorAdapter(actors) { actor ->
 - Work with cardview to elevate the design of each item on the recyclerview
 - Work with click listeners (when an item is clicked on the recyclerview do something)
 - Create another application that shows the list of your favorite food items along with number of calories per serving. Use ChatGpt or gemini to get the data. 
+
+### Card View 
+Cardview enhances the design of your UI
+
+[Official Documentation](https://developer.android.com/develop/ui/views/layout/cardview)
+
+#### Assignment:
+- Implement google custom chrom tabs for android in the recyclerview application to show the wikipedia links in the same app.
 
 
 
