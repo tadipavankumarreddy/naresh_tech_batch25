@@ -489,5 +489,14 @@ Cardview enhances the design of your UI
 #### Assignment:
 - Implement google custom chrom tabs for android in the recyclerview application to show the wikipedia links in the same app.
 
+### Android Networking
+
+#### Async TASK
+- Async task is deprecated in api level 30 in android. However, we can still work with Async Task. 
+- [Slides here](https://docs.google.com/presentation/d/1Yom6grVVEJVGp8IaB_a01uCNjBuUToHja9tzcTjZEl8/edit#slide=id.g116d7d9d49_3_13)
+- [Official Doc here](https://developer.android.com/reference/android/os/AsyncTask)
+
+
+Explore the [Public apis here](https://github.com/public-apis/public-apis)
 
 
