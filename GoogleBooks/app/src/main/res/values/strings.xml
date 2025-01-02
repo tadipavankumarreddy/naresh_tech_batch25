@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Bhagavad Gita</string>
+    <string-array name="bhagavad_gita_chapters_telugu">
+        <item>--Select the Chapter--</item>
+        <item>1. అర్జున విషాద యోగము</item>
+        <item>2. సాంఖ్య యోగము </item>
+        <item>3. కర్మ యోగము </item>
+        <item>4. జ్ఞాన కర్మ సన్యాస యోగము</item>
+        <item>5. కర్మ సన్యాస యోగము</item>
+        <item>6. ఆత్మ సంయమ యోగము</item>
+        <item>7. జ్ఞాన విజ్ఞాన యోగము</item>
+        <item>8. అక్షర బ్రహ్మ యోగము</item>
+        <item>9. రాజ విద్య రాజ గుహ్య యోగము</item>
+        <item>10. విభూతి యోగము</item>
+        <item>11. విశ్వరూప దర్శన యోగము</item>
+        <item>12. భక్తి యోగము </item>
+        <item>13. క్షేత్ర క్షేత్రజ్ఞ విభాగ యోగము</item>
+        <item>14. గుణత్రయ విభాగ యోగము</item>
+        <item>15. పురుషోత్తమ యోగము</item>
+        <item>16. దైవాసుర సంపద్విభాగ యోగము</item>
+        <item>17. శ్రద్ధాత్రయ విభాగ యోగము</item>
+        <item>18. మోక్ష సన్యాస యోగము</item>
+    </string-array>
+</resources>

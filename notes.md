@@ -499,4 +499,37 @@ Cardview enhances the design of your UI
 
 Explore the [Public apis here](https://github.com/public-apis/public-apis)
 
+### Executors
+
+#### What are Executors ?
+
+Executors are part of java Concurrent framework and provide a high-level replacement for Managing threads. They abstract thread creation and management, allowing developers to focus on task execution rather than the underlying thread management. 
+
+In Android, Executors are used to offload work from the main thread (UI thread) to background threads, ensuring smooth ui performance. 
+
+**Types of Executors**  
+1. SingleThreadExecutor
+   - Ensures tasks are executed sequentially in a single background thread.
+   - Example: Processing a sequence of file operations.
+2. FixedThreadPool
+   - Contains a fixed number of threads.
+   - Example: Executing mutliple tasks with a known number of threads. 
+3. CachedThreadPool
+   - Creates threads as needed and resuses the existing threads if available. 
+   - Example: Handling large number of short lived asynchronous tasks. 
+4. ScheduledThreadPool
+   - Used to schedule tasks to run after a delay or periodically. 
+   - Example: Periodic synchronization with a server. 
+5. WorkStealingPool
+   - Optimized for a large number of tasks where threads can "steal" work from each other.
+   - available from Java 8.
+
+**Advantages of an Executor**
+- Simplifies the thread management. 
+- Handles pooling and reuse of threads. 
+- Prevents common threading issues like resource starvation & memory leaks.
+- Easier to scale and maintain. 
+
+Explore Google Books API [here](https://developers.google.com/books/docs/v1/getting_started)
+
 
