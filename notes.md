@@ -533,3 +533,14 @@ In Android, Executors are used to offload work from the main thread (UI thread) 
 Explore Google Books API [here](https://developers.google.com/books/docs/v1/getting_started)
 
 Our URL is [this](https://www.googleapis.com/books/v1/volumes?q=quilting)
+
+
+### Volley Netowrking Library
+
+https://api.open-meteo.com/v1/forecast?latitude=17.3616&longitude=78.4747&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m&timezone=IST
+
+Click [here](https://google.github.io/volley/) for official documentation
+
+- Volley is a networking library, created by Google for making the network requests easy and efficient. 
+- It is an Http Library that makes the networking for android apps easier and most importantly faster. 
+
