@@ -544,3 +544,16 @@ Click [here](https://google.github.io/volley/) for official documentation
 - Volley is a networking library, created by Google for making the network requests easy and efficient. 
 - It is an Http Library that makes the networking for android apps easier and most importantly faster. 
 
+#### GSON Library
+- This is a library developed by Google to convert java objects to JSON and vice versa.
+- [Official Documentation](https://github.com/google/gson)
+- Provide simple toJson() and fromJson() methods to convert Java objects to JSON and vice-versa
+- Allow pre-existing unmodifiable objects to be converted to and from JSON
+- Extensive support of Java Generics
+- Allow custom representations for objects
+- Support arbitrarily complex objects (with deep inheritance hierarchies and extensive use of generic types)
+
+#### Task is to Convert JSON Data to Kotlin Objects. 
+1. We need the Kotlin classes created keeping JSON in mind. 
+   1. Use [Json2Kt](https://json2kt.com/) website to do this easily 
+2. GSON to convert the data into the objects of the classes that we created. 
