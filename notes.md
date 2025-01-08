@@ -557,3 +557,167 @@ Click [here](https://google.github.io/volley/) for official documentation
 1. We need the Kotlin classes created keeping JSON in mind. 
    1. Use [Json2Kt](https://json2kt.com/) website to do this easily 
 2. GSON to convert the data into the objects of the classes that we created. 
+
+
+
+### Android Notifications
+
+- [Official Documentation](https://developer.android.com/develop/ui/views/notifications/build-notification)
+- [Google Slides](https://docs.google.com/presentation/d/1D2n0-V0qG7H0YV5ZWx4rtJpjuHDBJ6m7vcvEmdYR8Ew/edit?resourcekey=0-NjY_l12AwzTN0Znqt7KY6w)
+  
+#### **1. What are Android Notifications?**
+- Notifications are messages displayed outside an app’s UI to provide updates, reminders, or alerts to the user.
+- They allow apps to communicate with users without interrupting their current activity.
+
+---
+
+#### **2. Key Components of a Notification**
+1. **Title**: The bold text at the top of the notification.
+2. **Text**: The main content of the notification.
+3. **Icon**: Small image representing the app or type of notification.
+4. **Timestamp**: Optional time information, often indicating when the notification was sent.
+5. **Action Buttons**: Provide quick actions the user can take without opening the app.
+
+---
+
+#### **3. Notification Channels (Android 8.0 and above)**
+- Group notifications into categories for better user control.
+- Each channel can have its own importance level, sound, and vibration settings.
+- Developers must create channels using the `NotificationChannel` class.
+  ```kotlin
+  val channel = NotificationChannel(
+      CHANNEL_ID,
+      "Channel Name",
+      NotificationManager.IMPORTANCE_DEFAULT
+  )
+  notificationManager.createNotificationChannel(channel)
+  ```
+
+---
+
+#### **4. Importance Levels**
+- **HIGH**: Alerts the user with a sound and appears as a heads-up notification.
+- **DEFAULT**: Shows in the notification drawer without sound.
+- **LOW**: Silent notification in the drawer.
+- **MIN**: Does not appear in the status bar.
+
+---
+
+#### **5. Building a Notification**
+- Use the `NotificationCompat.Builder` to construct notifications.
+- Example:
+  ```kotlin
+  val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+      .setSmallIcon(R.drawable.notification_icon)
+      .setContentTitle("Notification Title")
+      .setContentText("This is the content of the notification.")
+      .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+  ```
+
+---
+
+#### **6. Displaying a Notification**
+- Use `NotificationManager` to issue the notification:
+  ```kotlin
+  val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+  notificationManager.notify(NOTIFICATION_ID, builder.build())
+  ```
+
+---
+
+#### **7. Types of Notifications**
+1. **Foreground Service Notifications**:
+   - Required for background tasks like music players or location tracking.
+   - Persistent and cannot be dismissed.
+2. **Heads-up Notifications**:
+   - Temporarily displayed on top of the screen.
+3. **Expandable Notifications**:
+   - Include images, a detailed text view, or a list.
+4. **Actionable Notifications**:
+   - Allow users to respond directly, e.g., reply to messages.
+5. **Grouped Notifications**:
+   - Combine multiple notifications into a single group for better organization.
+
+---
+
+#### **8. Notification Styles**
+- **BigTextStyle**: For long text content.
+- **InboxStyle**: For a list of items.
+- **BigPictureStyle**: For displaying an image.
+- **MessagingStyle**: For conversations or chat apps.
+
+---
+
+#### **9. Best Practices**
+- Use concise, meaningful content.
+- Avoid spamming users with too many notifications.
+- Allow users to customize notification settings.
+- Use notification badges to indicate unread notifications.
+- Test notifications on different Android versions and device sizes.
+
+---
+
+#### **10. Debugging Notifications**
+- Ensure proper permissions are granted.
+- Test behavior with and without the app in the background.
+- Use `adb shell dumpsys notification` to debug notification behavior.
+
+---
+
+
+### Pending Intents in Android
+- [official document](https://developer.android.com/reference/android/app/PendingIntent)
+  
+**What are pending Intents ?**
+- A `PendingIntent` is a token that grants a foreign application (eg., Android system or another app) permission to perform a predefined action on behalf of your app. 
+- It is essentially a wrapper around an `Intent` that  
+  - Allows another app (Or system) to execute the `Intent`
+  - Retains the `Intent` even if the app that created it is no longer running. 
+
+**Why do use pending intent ?**
+- Used in scenarios where your app delegates an action to another process or app. 
+- Commonly used with   
+  - Notifications: to launch an activity when the user taps the notification. 
+  - Alarms: To Perform scheduled tasks with `AlarmManager`
+  - Widgets: To Handle user interactions like button clicks. 
+
+**Types of PendingIntent**
+1. PendingIntent.getActivity(...)
+   1. Used to start an Activity.
+   2. Example: Opening the app when the user taps the notification. 
+   3. 
+   ```kotlin
+   val intent = Intent(context, MainActivity::class.java)
+   val pendingIntnet = PendingIntent.getActivity(
+    context,
+    REQUEST_CODE,
+    intent,
+    PendingIntent.FLAG_UPDATE_CURRENT
+   )
+   ```
+2. PendingIntent.getService(...)
+   1. Used to start a Service.
+   2. Example: Start a background task 
+   3. 
+   ```kotlin
+   val intent = Intent(context, MyService::class.java)
+   val pendingIntnet = PendingIntent.getActivity(
+    context,
+    REQUEST_CODE,
+    intent,
+    PendingIntent.FLAG_UPDATE_CURRENT
+   )
+3. PendingIntent.getBroadcast(...)
+   1. 1. Used to send a Broadcast.
+   2. Example: Trigger an Intent when an alarm goes off. 
+   3. 
+   ```kotlin
+   val intent = Intent(context, MyBroadcastReceiver::class.java)
+   val pendingIntnet = PendingIntent.getActivity(
+    context,
+    REQUEST_CODE,
+    intent,
+    PendingIntent.FLAG_UPDATE_CURRENT
+   )
+
+
