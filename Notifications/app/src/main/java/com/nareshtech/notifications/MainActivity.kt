@@ -5,11 +5,13 @@ import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_HIGH
 import android.app.PendingIntent
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.BigTextStyle
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -46,17 +48,24 @@ class MainActivity : AppCompatActivity() {
     fun sendNotification(view: View) {
         // TODO 4: Build a Notification
         // TODO 7: Bring the notification into Action
+        // TODO 8: Convert the image to Bitmap format
+        val b = BitmapFactory.decodeResource(resources, R.drawable.wallpaper)
         val intent = Intent(this,MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0,intent,PendingIntent.FLAG_UPDATE_CURRENT)
 
+        // TODO 9: set the bitmap image on the notification using setStyle(...) and BigPictureStyle(...)
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.baseline_beach_access_24)
             .setContentTitle("My Notification")
             .setContentText("Sample Text to see how this content Text gets displayed.")
             .setAutoCancel(true)
+            .setStyle(NotificationCompat.BigPictureStyle().bigPicture(b))
+            .addAction(R.drawable.baseline_beach_access_24,"Action",pendingIntent)
+            .addAction(R.drawable.baseline_beach_access_24,"Action",pendingIntent)
+            .addAction(R.drawable.baseline_beach_access_24,"Action",pendingIntent)
             .setContentIntent(pendingIntent)
             .build()
-
+            /*.setStyle(BigTextStyle().bigText("This is a large text that needs to be displayed so that user will identify this text when the user expands the notification."))*/
         // TODO 5: Send the Notification
         notificationManager.notify(NOTIFICATION_ID, notification)
     }

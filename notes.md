@@ -721,3 +721,201 @@ Click [here](https://google.github.io/volley/) for official documentation
    )
 
 
+**Steps to follow to show an image in the notification when the notificaiton is expanded**
+- Download an image and put it in the drawable folder.
+- Convert this image into bitmap format using BitmapFactory. 
+- set the image using the **BigPictureStyle**.
+
+***Explore [Media Style Notifications](https://developer.android.com/develop/ui/views/notifications/expanded#media-style) and [remote reply action](https://developer.android.com/develop/ui/views/notifications/build-notification#reply-action) implementation***
+
+---
+### Broadcast Receiver 
+
+**What is a BroadcastReceiver ?**
+- It is a component that responds to broadcast messages (Intents) sent by the android system or other applications. 
+- It is commonly used to listen for the system events (e.g., battery low, connectivity changes) or custom events triggered by the app itself. 
+
+**Types of Broadcasts**
+1. System Broadcasts
+   - Sent by the android system to notify about system events. 
+   - Examples:
+     - `android.intent.action.BOOT_COMPLETED` (Device is booted)
+     - `android.net.conn.CONNECTIVITY_CHANGE` (Network connectivity changes)
+2. Custom Broadcasts
+   - Sent by apps to notify other components or apps of custom events.
+   - Example:
+     - Sending a broadcast when data is updated. 
+
+[Slides](https://docs.google.com/presentation/d/1qF9Yeau7uHIP7_aOHWgPU_RnfxACZzGyAZIzcJWz0R0/edit#slide=id.g116d7d9d49_3_13)  
+[Official Documentation](https://developer.android.com/develop/background-work/background-tasks/broadcasts)
+
+**Broadcast receivers can be registered in two ways:**
+- **Static receivers** 
+  - Registered in your AndroidManifest.xml, also called as Manifest-declared receivers.
+- **Dynamic receivers**
+  - Registered using app or activities' context in your Java files, also called as Context-registered receivers. 
+
+**Important Note**
+- Starting from Android 8.0 (API level 26), static receivers can't receive most of the system broadcasts.
+- Use a dynamic receiver to register for these broadcasts. 
+- If you register for the system broadcasts in the manifest, the Android system won't deliver them to your app.
+- A few broadcasts, are excepted from this restriction. See the complete list of [implicit broadcast exceptions](https://developer.android.com/develop/background-work/background-tasks/broadcasts/broadcast-exceptions).
+
+### Retrofit Networking Library (Kotlin)
+
+Retrofit is a popular networking library in Android that simplifies API communication by allowing developers to define endpoints and handle responses efficiently. Below is a detailed guide to using Retrofit with Kotlin, along with relevant resources for further learning.
+
+---
+
+#### 1. **What is Retrofit?**
+Retrofit is a type-safe HTTP client for Android and Java, developed by Square. It abstracts the complexities of making HTTP requests, parsing responses, and error handling.
+
+##### Key Features:
+- Converts HTTP API into a Kotlin interface.
+- Supports various data formats (JSON, XML, etc.).
+- Handles API requests and responses with ease.
+- Integrated support for popular serialization libraries like Gson, Moshi, and Kotlin Serialization.
+- Supports synchronous and asynchronous calls.
+
+---
+
+#### 2. **Setup and Configuration**
+
+##### Add Dependencies:
+In your `build.gradle` (Module-level):
+```groovy
+implementation("com.squareup.retrofit2:retrofit:2.9.0")
+implementation("com.squareup.retrofit2:converter-gson:2.9.0") // Gson Converter (Optional)
+```
+For Kotlin Serialization:
+```groovy
+implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0'
+```
+
+Sync the project to download the dependencies.
+
+##### Create a Retrofit Instance:
+```kotlin
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+val retrofit = Retrofit.Builder()
+    .baseUrl("https://api.example.com/")
+    .addConverterFactory(GsonConverterFactory.create())
+    .build()
+```
+
+---
+
+#### 3. **Define API Endpoints**
+
+Create an interface to define your API endpoints using annotations like `@GET`, `@POST`, etc.
+
+```kotlin
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Query
+
+interface ApiService {
+    @GET("users")
+    fun getUsers(@Query("page") page: Int): Call<List<User>>
+}
+```
+
+- **@GET**: Defines a GET request.
+- **@POST**: Defines a POST request.
+- **@Query**: Adds query parameters to the request.
+- **@Body**: Sends a request body (used with POST/PUT).
+
+##### Create API Interface Instance:
+```kotlin
+val apiService = retrofit.create(ApiService::class.java)
+```
+
+---
+
+#### 4. **Model Classes**
+
+Define data classes to represent JSON responses:
+
+```kotlin
+data class User(
+    val id: Int,
+    val name: String,
+    val email: String
+)
+```
+Ensure the property names match the JSON response fields. Use Gson annotations like `@SerializedName` if the names differ.
+
+```kotlin
+data class User(
+    @SerializedName("user_id") val id: Int,
+    @SerializedName("user_name") val name: String,
+    val email: String
+)
+```
+
+---
+
+#### 5. **Making API Calls**
+
+Use Retrofit's `Call` object to make API requests asynchronously:
+
+```kotlin
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
+val call = apiService.getUsers(page = 1)
+call.enqueue(object : Callback<List<User>> {
+    override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
+        if (response.isSuccessful) {
+            response.body()?.let { users ->
+                users.forEach {
+                    println(it.name)
+                }
+            }
+        } else {
+            println("Error: ${response.errorBody()?.string()}")
+        }
+    }
+
+    override fun onFailure(call: Call<List<User>>, t: Throwable) {
+        t.printStackTrace()
+    }
+})
+```
+
+---
+
+#### 6. **Error Handling**
+
+Handle errors using Retrofit’s `Response` wrapper or exception handling. Example shown above with `onResponse` and `onFailure` methods.
+
+---
+
+#### 7. **Common Annotations**
+
+| Annotation     | Description                                    |
+|----------------|------------------------------------------------|
+| `@GET`        | Defines a GET request.                        |
+| `@POST`       | Defines a POST request.                       |
+| `@PUT`        | Defines a PUT request.                        |
+| `@DELETE`     | Defines a DELETE request.                     |
+| `@Query`      | Appends query parameters to the URL.          |
+| `@Path`       | Replaces parts of the URL with values.        |
+| `@Body`       | Sends a request body.                         |
+| `@Header`     | Adds a custom header to the request.          |
+
+---
+
+#### 8. **Useful Resources**
+
+- **Official Documentation:** [Retrofit Documentation](https://square.github.io/retrofit/)
+- **Gson:** [Gson Library](https://github.com/google/gson)
+- **Kotlin Serialization:** [Kotlinx Serialization](https://github.com/Kotlin/kotlinx.serialization)
+- **API Testing:** [Postman](https://www.postman.com/)
+- **Fake REST API:** [JsonPlaceHolder](https://jsonplaceholder.typicode.com/)
+---
+
+
