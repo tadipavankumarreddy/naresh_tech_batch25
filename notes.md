@@ -1073,5 +1073,178 @@ fun scheduleRepeatingAlarm(context: Context) {
 - [PendingIntent Documentation](https://developer.android.com/reference/android/app/PendingIntent)
 - [Doze Mode and App Standby](https://developer.android.com/training/monitoring-device-state/doze-standby)
 
+# Job Scheduler and Work Manager in Android (Kotlin)
+
+Android provides robust APIs for background tasks, and two widely used solutions for this purpose are **JobScheduler** and **WorkManager**. Below is an overview, along with usage notes and examples for each.
+
+---
+
+## 1. **Job Scheduler**
+
+[**JobScheduler**](https://docs.google.com/presentation/d/1UILCEnzR1vurX0XaFV71Ke_yyIhEJ9--iRzwVpYKLwc/edit?resourcekey=0-RTKA4Q5ubz5BcdHZ6gRt-Q#slide=id.g18e75634d0_0_172) is an API introduced in Android 5.0 (API level 21) that allows scheduling tasks that need to be executed even if the app is not running.
+
+### Use Cases:
+- Periodic data sync.
+- Uploading logs or files when on Wi-Fi.
+- Running jobs when charging.
+
+### Setup and Configuration
+
+### Add Permission:
+In the `AndroidManifest.xml`, add the following permission:
+```xml
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+```
+
+### Define a Job Service:
+Extend the `JobService` class to perform background work.
+
+```kotlin
+import android.app.job.JobParameters
+import android.app.job.JobService
+import android.util.Log
+
+class MyJobService : JobService() {
+
+    override fun onStartJob(params: JobParameters?): Boolean {
+        Log.d("JobScheduler", "Job started")
+
+        // Perform the task
+        Thread {
+            Log.d("JobScheduler", "Task running")
+            jobFinished(params, false) // Notify when the job is done
+        }.start()
+
+        return true // Task is running on another thread
+    }
+
+    override fun onStopJob(params: JobParameters?): Boolean {
+        Log.d("JobScheduler", "Job stopped")
+        return false // No need to retry the job
+    }
+}
+```
+
+### Schedule a Job:
+Use `JobScheduler` to schedule tasks with specified constraints.
+
+```kotlin
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
+import android.content.Context
+import android.os.Build
+
+fun scheduleJob(context: Context) {
+    val componentName = ComponentName(context, MyJobService::class.java)
+
+    val jobInfo = JobInfo.Builder(1, componentName)
+        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED) // Requires Wi-Fi
+        .setRequiresCharging(true) // Requires charging
+        .setPeriodic(15 * 60 * 1000L) // Minimum interval: 15 minutes
+        .build()
+
+    val jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+    jobScheduler.schedule(jobInfo)
+}
+```
+
+---
+
+## 2. **WorkManager**
+
+**WorkManager** is a modern and flexible API for background tasks introduced in Jetpack. It supports constraints and is compatible with all API levels (starting from API level 14).
+
+### Key Features:
+- Guaranteed task execution.
+- Support for constraints like network type, battery status, etc.
+- Support for chaining tasks.
+- Compatibility with API 14+.
+
+### Add Dependencies:
+In your `build.gradle` (Module-level):
+```groovy
+implementation "androidx.work:work-runtime-ktx:2.8.1"
+```
+
+### Define a Worker:
+Extend the `Worker` class to define background tasks.
+
+```kotlin
+import android.content.Context
+import android.util.Log
+import androidx.work.Worker
+import androidx.work.WorkerParameters
+
+class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+
+    override fun doWork(): Result {
+        Log.d("WorkManager", "Work started")
+
+        // Perform the background task here
+        try {
+            Log.d("WorkManager", "Task running")
+            return Result.success()
+        } catch (e: Exception) {
+            Log.e("WorkManager", "Error", e)
+            return Result.failure()
+        }
+    }
+}
+```
+
+### Schedule a Work Request:
+Create and enqueue a `WorkRequest` to execute your worker.
+
+```kotlin
+import androidx.work.Constraints
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+
+fun scheduleWork(context: Context) {
+    val constraints = Constraints.Builder()
+        .setRequiresCharging(true) // Requires charging
+        .setRequiredNetworkType(androidx.work.NetworkType.UNMETERED) // Requires Wi-Fi
+        .build()
+
+    val workRequest = OneTimeWorkRequestBuilder<MyWorker>()
+        .setConstraints(constraints)
+        .build()
+
+    WorkManager.getInstance(context).enqueue(workRequest)
+}
+```
+
+### Observing Work Status:
+You can observe the status of your work using `WorkManager`.
+
+```kotlin
+WorkManager.getInstance(context).getWorkInfoByIdLiveData(workRequest.id)
+    .observe(lifecycleOwner) { workInfo ->
+        if (workInfo != null && workInfo.state.isFinished) {
+            Log.d("WorkManager", "Work finished")
+        }
+    }
+```
+
+---
+
+## Key Differences Between JobScheduler and WorkManager
+
+| Feature               | JobScheduler                   | WorkManager                  |
+|-----------------------|--------------------------------|-----------------------------|
+| API Level Support     | API 21+                       | API 14+                     |
+| Task Execution        | Not guaranteed after app kill | Guaranteed                  |
+| Chaining Tasks        | Not supported                 | Supported                   |
+| Library Dependency    | No                            | Requires Jetpack WorkManager|
+
+---
+
+## Useful Links
+
+1. **JobScheduler Documentation:** [JobScheduler](https://developer.android.com/reference/android/app/job/JobScheduler)
+2. **WorkManager Documentation:** [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager)
+3. **WorkManager Guide:** [Guide to WorkManager](https://developer.android.com/codelabs/android-workmanager)
+
 
 
