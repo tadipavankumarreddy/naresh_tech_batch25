@@ -1347,7 +1347,8 @@ WorkManager.getInstance(context).getWorkInfoByIdLiveData(workRequest.id)
 
 3. **What is LiveData?**
    - LiveData is a lifecycle-aware observable data holder class.
-   - It automatically updates the UI when the underlying data changes.
+   - It automatically updates the UI when the.3
+   -  underlying data changes.
 
 4. **How to Use LiveData?**
    - Define LiveData in ViewModel:
@@ -1376,4 +1377,50 @@ WorkManager.getInstance(context).getWorkInfoByIdLiveData(workRequest.id)
    - Use `LiveData` to expose data to the UI and `MutableLiveData` for internal data modification.
    - Avoid storing references to Views or Context in ViewModel to prevent memory leaks.
 
+### MVC & MVVM architecture patterns
+
+#### MVC - Model, View & Controller
+#### MVVM - Model, View & ViewModel
+
+MVC & MVVM are achitectural patterns used in software development to seperate concerns and manage code organization. Both are popular in Android Development. However, they differ in how they manage the flow of data and the user interaction. 
+
+Architectural patterns provide a template or stucturing and organizing code and components in a way that improve system's maintainability.
+
+**MVC**  
+***Components***  
+- Model
+  - Represents the data and the business logic of the application. 
+  - It is also responsible for handling the data-related operations, such as fetching data from the server or API or Database. 
+- View
+  - The UI that displays data to the user is called the view. 
+  - It is responsible for rendering the UI Components and displaying data to the world from the Model. 
+- Controller
+  - Acts as an Intermediary between the model and the view. 
+  - It processes the user inputs, updates the model, and determines which view should be displayed. 
+
+![MVC Overview](/mvc.png)
+
+Example in an android app, the view could be an activity or a fragment, the model could be a data class or a repository managing the data and the controller could be a class that handles the user input and is reponsible for updating the UI. 
+
+**MVVM**
+- Model
+  - Same as that of the MVC - It represents the data and the business logic of the app. 
+- View 
+  - The user Interface, which is typically an activity or a fragment in the app. 
+- ViewModel 
+  - An intermediary that holds the UI Logic and the data needed for the View. It communicates with the model and prepares observable data for the views. 
+![MVVM](/mvvm.png)
+
+Example in an android app, the view could be your activity or fragment, the model is the data repo or the data classes or other data sources. The view model is a class that holds livedata and other observable types, these view observers observe if there are any changes in the data and if there are any, it notifies the view and updates it. 
+
+***Key Differences***   
+
+Difference|MVC|MVVM
+---|---|---
+Seperation of Concern | The controller often contains a mid of UI and Business logic, making it less seperation| The view Model contains the UI Logic, and the model contains the business logic, providing a clearer seperation
+DataBinding| Not supported in MVC, the view and controller must manually update each other|Often uses data binding libraries like android Data Binding / ViewBinding or Jetpack's ViewModel and LiveData which allow automatic updates to the UI when data changes
+Testability|Testing can be challenging because the UI and business logic are not clearly seperated| Relatively easier to test as the ViewModel can be tested independently of the UI.
+Observer Pattern| Changes in the model are often propagated to the View Manually| The view model can use observable data to automatically notify the view of changes happening to the data. 
+
+**Conclusion:** MVC and MVVM are both effective in managing the complexity of the application. MVC is simpler and more straight forward, but MVVM offers better seperation of concerns and support for data binding making it more modern and flexible.
 
