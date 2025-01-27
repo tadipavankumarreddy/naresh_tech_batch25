@@ -1424,3 +1424,61 @@ Observer Pattern| Changes in the model are often propagated to the View Manually
 
 **Conclusion:** MVC and MVVM are both effective in managing the complexity of the application. MVC is simpler and more straight forward, but MVVM offers better seperation of concerns and support for data binding making it more modern and flexible.
 
+### Fragments In Android
+A Fragment represents a reusable portion of your App's UI. A Fragment defines and manages it's own layout, has its own lifecycle, and can handle it's own input events. 
+- Fragments cannot live on their own. They must be hosted by an activity or an other fragment.
+- The fragment's view hierarchy becomes part of, or attaches to, the host's view hierarchy. 
+
+[Official Link](https://developer.android.com/guide/fragments)
+
+**Primary Usecases**
+- **Modular UI Components**   
+  - Fragments allow developers to break down an activity's user interface into smaller, managable pieces. It makes it easier to reuse the code and UI components across different parts of the applicaiton or even in different activities. 
+- **flexible layouts for mutliple screen sizes**
+  - Fragments are ideal for creating responsive layouts. In devices with larger screens (Like tablets), you can show multiple fragments side by side, while on smaller screen (Like Phones) you can display them one after the other. 
+- **Reusability**
+  - Since framents are self contained UI Components, they can be reused in different activities or even within different parts of the same activity. This reduces the amount of boilerplate code and can also speed up the development process.
+
+**Imp Note:**
+For a fragment to be shown to the user, there must be an activity or another fragment running and that should act as a host. A Frament cannot be used independently.
+
+**Fragment Lifecycle**  
+[Link to doc](https://developer.android.com/guide/fragments/lifecycle)  
+![Fragment Lifecycle](/fragment-view-lifecycle.png)
+
+- onAttach()
+  - **When it happens?**: It is called when the fragment is first attached to its parent activity. 
+  - **What can you do ?**: This is where you can access the parent activity or set up any intial resources.
+- onCreate()
+  - **When it happens?**: It is called when the fragment is first created, right after being attached to the activity. 
+  - **What can you do ?**: You can initialize non UI Components, like setting up of data, ViewModels etc.,
+- onCreateView()
+  - **When it happens?**: Called when the fragment's UI needs to be created (ie., that the layout is inflated)
+  - **What can you do ?**: Inflate the fragment's UI.
+- onActivityCreated()
+  - **When it happens?**: It is called after the activity's onCreate() method finishes.
+  - **What can you do ?**: This is a good place to interact with the activity's views and complete the finial initialization. 
+- onStart()
+  - **When it happens?**: Called when the fragment is visible to the user. 
+  - **What can you do ?**: Start things that need to happen when the fragment is visible (Ex: Starting animations or loading data)
+- onResume()
+  - **When it happens?**: It is called when the fragment is now interacting with the user
+  - **What can you do ?**: Start things that need to happen when the fragment is actively used. 
+- onStop()
+  - **When it happens?**: It is called when the fragment is no longer visible to the user. 
+  - **What can you do ?**: release resources, stop animations, and save any necessary data. 
+- onDestroyView()
+  - **When it happens?**: Called when the viewhierarchy of the fragment is destroyed( but the fragment itself may still exist)
+  - **What can you do ?**: Clean up references, remove any binding or free resources related to the UI. 
+- onDestroy()
+  - **When it happens?**: called when the fragment is no longer needed. 
+  - **What can you do ?**: stop background tasks. 
+- onDetach()
+  - **When it happens?**: Called when the fragment is detached from the parents activity. 
+  - **What can you do ?**: Final Cleanup. 
+
+**Fragment lifecycle Flow**  
+1. Created -> onAttach() -> onCreate() -> onCreateView() -> onActivityCreated() -> onStart() -> onResume()
+2. When the fragment is no longer visible, it follows this flow:
+   1. onPause() -> onStop() -> onDestroyView() -> onDestroy() -> onDetach()
+
