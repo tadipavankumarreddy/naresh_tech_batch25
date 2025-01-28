@@ -3,6 +3,7 @@ package com.nareshtech.fragcommunication
 import SharedViewModel
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -33,8 +34,15 @@ class FragmentA : Fragment() {
             val data = til.editText?.text.toString()
             sharedViewModel.setData(data)
         }
+        Log.v("FragmentA", "I'm oncreateView invoked before onViewCreated")
         return v
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.v("FragmentA", "I'm onViewCreated Invoked After onCreateView")
+    }
+
 
 
 }
