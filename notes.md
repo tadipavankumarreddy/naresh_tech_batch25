@@ -1482,3 +1482,9 @@ For a fragment to be shown to the user, there must be an activity or another fra
 2. When the fragment is no longer visible, it follows this flow:
    1. onPause() -> onStop() -> onDestroyView() -> onDestroy() -> onDetach()
 
+### Fragment Communication
+Fragment Communication in android involves enabling communication between different fragments or between a fragment and it's parent activity. Kotlin Simplifies the fragment communication using `interfaces`, `ViewModel`,or fragment-specific communication methods like `setFragmentResult` API.
+
+- Using Interfaces (Traditional Approach)
+- Using SharedViewModel
+- 
