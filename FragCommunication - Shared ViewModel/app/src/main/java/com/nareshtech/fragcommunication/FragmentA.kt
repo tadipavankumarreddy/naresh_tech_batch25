@@ -17,10 +17,6 @@ class FragmentA : Fragment() {
 
   private lateinit var sharedViewModel: SharedViewModel
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +25,7 @@ class FragmentA : Fragment() {
         // Inflate the layout for this fragment
         // TODO 4: Use the interface to send the data from editText Box when the button is clicked.
         val v = inflater.inflate(R.layout.fragment_a, container, false)
-
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
         val til = v.findViewById<TextInputLayout>(R.id.textInputLayout)
         val b = v.findViewById<Button>(R.id.submitButton)
 
@@ -37,7 +33,6 @@ class FragmentA : Fragment() {
             val data = til.editText?.text.toString()
             sharedViewModel.setData(data)
         }
-
         return v
     }
 

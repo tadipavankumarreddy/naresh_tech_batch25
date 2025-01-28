@@ -17,15 +17,14 @@ class FragmentB : Fragment() {
 
     private lateinit var sharedViewModel: SharedViewModel
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
         // Inflate the layout for this fragment
         val v =  inflater.inflate(R.layout.fragment_b, container, false)
 
