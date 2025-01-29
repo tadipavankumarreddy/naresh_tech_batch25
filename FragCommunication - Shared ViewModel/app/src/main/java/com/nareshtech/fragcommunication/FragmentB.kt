@@ -17,10 +17,6 @@ class FragmentB : Fragment() {
 
     private lateinit var sharedViewModel: SharedViewModel
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +24,7 @@ class FragmentB : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val v =  inflater.inflate(R.layout.fragment_b, container, false)
-
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
         textView = v.findViewById(R.id.receivedText)
 
         sharedViewModel.sharedData.observe(viewLifecycleOwner) { data:String ->

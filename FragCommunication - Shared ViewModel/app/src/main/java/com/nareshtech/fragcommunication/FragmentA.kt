@@ -1,14 +1,12 @@
 package com.nareshtech.fragcommunication
 
 import SharedViewModel
-import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.lifecycle.ViewModel
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputLayout
 
@@ -35,7 +33,7 @@ class FragmentA : Fragment() {
 
         b.setOnClickListener {
             val data = til.editText?.text.toString()
-            sharedViewModel.setData(data)
+            sharedViewModel.sharedData.value = data
         }
 
         return v

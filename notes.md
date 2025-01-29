@@ -1486,5 +1486,28 @@ For a fragment to be shown to the user, there must be an activity or another fra
 Fragment Communication in android involves enabling communication between different fragments or between a fragment and it's parent activity. Kotlin Simplifies the fragment communication using `interfaces`, `ViewModel`,or fragment-specific communication methods like `setFragmentResult` API.
 
 - Using Interfaces (Traditional Approach)
+  - [Visit this app](/FragCommunication/)
 - Using SharedViewModel
-- 
+  - [Visit this app](/FragCommunication%20-%20Shared%20ViewModel/)
+- Using `setFragmentResult` API
+  - [Visit this app](/FragmentCommunicationsetFragmentResult/)
+- Using Direct Fragment to Fragment Communication.
+
+#### Comparision of Methods
+
+Methods|Use Case |Pros | Cons
+---|---|---|---
+interface|Fragment to Activity Communication|Simple for small apps | verbose, Tightly coupled
+SharedViewModel|Sharing the data between fragments in the same activity | Decoupled, Lifecycle aware | slightly complex
+setFragmentResult| Direct fragment to fragment communication (Jetpack Recommended way)|Modern, Light weight|Requires API 26+
+Direct Communication|Tightly Couple fragments|Simple for closely related fragments|Not scalable.
+
+### Lateral Navigation in Android: View Pager & Tab Navigation
+Lateral navigation in android refers to navigating between fragments or activities by simply swiping on the screen or selecting tabs. 
+The most common ways to implement lateral navigation are
+- [ViewPager2 (latest ViewPager)](https://developer.android.com/develop/ui/views/animations/screen-slide-2)
+- [TabLayout with ViewPager2](https://developer.android.com/guide/navigation/navigation-swipe-view-2)
+- BottomNavigationView with ViewPager2 (Assignment)
+- Navigation Component (Advanced navigation)
+
+**ViewPager2 allows users to swipe between the fragments**  
