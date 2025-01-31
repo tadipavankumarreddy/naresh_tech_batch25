@@ -1511,3 +1511,43 @@ The most common ways to implement lateral navigation are
 - Navigation Component (Advanced navigation)
 
 **ViewPager2 allows users to swipe between the fragments**  
+
+### Navigation Components (Android)
+- core components
+  - Navigation Graph
+    - The Navigation Graph is an xml file that defines all the destinations (Fragment / activity) and actions (transition) in the app.
+  - Nav controller
+    - Manages Navigation within an app, controlling back stack & executing navigation actions. 
+  - NavHostFragment
+    - A Container that hosts the fragments and manages the navigation within it.
+
+- [Link to the official Documentation](https://developer.android.com/guide/navigation)
+- [Link to Youtube Video](https://www.youtube.com/watch?v=NqpyCKlYLVU)
+
+**Assignment**
+- Try to trasfer data using safe args in the navigation components example. 
+
+### Shared Preferences
+
+SharedPreferences is a light weight storage mechanism in android that allows storing small key-value pairs persistently. It is mainly used for storing simple data like user preferences, settings, or session data. 
+
+**Key Features**
+- Stores data in XML format
+- Data persists even after the app is closed or restarted. 
+- Besit suited for small amounts of primitive data (e.g., strings, integers, Boolean)
+- Not Suitable for large or complex data structures like lists or images. 
+
+### Jetpack DataStore in Android 
+Jetpack datastore is Google's Recommended replacement for `SharedPreferences`. It provides a more efficient, safer and asynchronous way to store key-value data using kotlin Coroutines and flow. 
+
+**Why use DataStore instead of SharedPreferences ?**
+- **Asynchronous:** uses `Coroutines` and `Flow`, avoiding UI Thread blocking.
+- **Safer Storage:** uses `Proto Datastore` for type safety
+- **No Performance Issues:** SharedPreferences blocks I/O operations, but datastore doesn't.
+
+**Types of DataStore**
+- **Preference DataStore:** key-value storages (Very similar to SharedPreferences)
+- **Proto datastore:** Stores structured objects with type safety using [protocol buffers](https://protobuf.dev/) (protobuf)
+
+
+
