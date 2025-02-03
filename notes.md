@@ -1550,4 +1550,43 @@ Jetpack datastore is Google's Recommended replacement for `SharedPreferences`. I
 - **Proto datastore:** Stores structured objects with type safety using [protocol buffers](https://protobuf.dev/) (protobuf)
 
 
+### SQLite Database in Android
+
+SQLite is a lightweight, embedded database that comes with Android. It is used for local data storage in applications. 
+
+**Features:**
+- Self-Contained, serverless, and zero- configuration required. 
+- Supports most of SQL syntax
+- Stores Data in a Single File. 
+
+**How do we create SQLiteDatabase ?**
+- By the help of `SQLiteOpenHelper` class
+
+Inorder to work with Basic queries - Please goto [this website](sqliteonline.com)
+
+**SQLite Queries**  
+- Create a Table
+  - CREATE TABLE person(
+  person_id integer PRIMARY key AUTOINCREMENT,
+  person_name text,
+  person_age integer
+);
+
+- Insert Data 
+  - INSERT INTO person (person_name,person_age) VALUES ('Rama',22), ('Pavan', 32) ;
+
+- Retrieve The Data
+  - select * from person;
+
+- Update the data
+  - UPDATE person set person_age = 34 WHERE person_id = 2;
+
+- Delete an entry
+  - DELETE from person where person_id = 2;
+
+- DROP the table
+  - DROP TABLE person;
+
+#### Assignment
+- Please complete update, Delete queries on SqliteDatabase app.
 
