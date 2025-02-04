@@ -1590,3 +1590,13 @@ Inorder to work with Basic queries - Please goto [this website](sqliteonline.com
 #### Assignment
 - Please complete update, Delete queries on SqliteDatabase app.
 
+### Content Providers 
+
+Content Providers manage and share data between applications securely. They enable apps to access data stored in other applications (e.g., Contacts, Media)
+
+***Key Components***
+- `ContentProvider` class
+- URIs (Uniform Resource Identifiers)
+- `ContentResolver` for accessing data.
+- CRUD Operations. 
+
