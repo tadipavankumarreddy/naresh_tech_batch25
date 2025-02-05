@@ -1600,3 +1600,112 @@ Content Providers manage and share data between applications securely. They enab
 - `ContentResolver` for accessing data.
 - CRUD Operations. 
 
+### Room Database
+The Room persistence library provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite. In particular, Room provides the following benefits:
+
+- Compile-time verification of SQL queries.
+- Convenience annotations that minimize repetitive and error-prone boilerplate code.
+- Streamlined database migration paths.
+
+[Official Documentation](https://developer.android.com/training/data-storage/room)
+
+#### Implementing Room Database
+Step 1: Add Dependencies - in your build.gradle(module:app)
+```kotlin
+plugins {
+    ...
+    id("kotlin-kapt")
+}
+
+android {
+    ...
+}
+
+dependencies {
+    val room_version = "2.6.1"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    ...
+}
+```
+
+Step 2: Create Entity
+- Each entity class is a table where
+  - class name = table name
+  - fields = column names
+
+```kotlin
+package com.nareshtech.roomdatabase
+
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "person")
+data class Person(
+    @PrimaryKey(autoGenerate = true)
+    val person_id:Int,
+    
+    @ColumnInfo(name = "personName")
+    val person_name:String,
+    val person_age:Int
+)
+```
+
+Step 3: Create a DAO 
+- `PersonDao` provides the methods that the rest of the app uses to interact with data in the '`person`' table.
+
+```kotlin
+package com.nareshtech.roomdatabase
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
+
+@Dao
+interface PersonDAO {
+
+    @Insert
+    fun insertData(person: Person):Unit
+
+    @Query("select * from person")
+    fun getAllData():List<Person>
+
+    @Update
+    fun updateRow(person: Person)
+}
+```
+
+Step 4: Create a Database class
+The following code defines an AppDatabase class to hold the database. AppDatabase defines the database configuration and serves as the app's main access point to the persisted data. The database class must satisfy the following conditions:
+
+- The class must be annotated with a `@Database` annotation that includes an entities array that lists all of the data entities associated with the database.
+- The class must be an abstract class that extends `RoomDatabase`.
+- For each DAO class that is associated with the database, the database class must define an abstract method that has zero arguments and returns an instance of the DAO class.
+
+```kotlin
+import androidx.room.Database
+import androidx.room.RoomDatabase
+
+@Database(entities = [Person::class], version = 1)
+abstract class PersonDatabase:RoomDatabase() {
+    abstract fun personDao():PersonDAO
+}
+```
+Step 5: Begin communication with the database by creating the roomdatabase. 
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+  
+    lateinit var personDatabase: PersonDatabase
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+       ...
+        personDatabase = Room.databaseBuilder(this, PersonDatabase::class.java, "pavan")
+            .allowMainThreadQueries()
+            .build()
+    }
+}
+```
