@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loadData(view: View) {
-        val data:List<Person> = personDatabase.personDao().getAllData()
+        val data:List<Human> = personDatabase.personDao().getAllData()
         val tv:TextView = findViewById(R.id.textViewResult)
         tv.setText("")
         for(i in data){
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         val age = (findViewById<TextInputLayout>(R.id.textInputLayoutInteger)).editText?.text.toString().toInt()
 
         // Create a person object.
-        val person = Person(0,name, age)
+        val person = Human(0,name, age)
         personDatabase.personDao().insertData(person)
 
        (findViewById<TextInputLayout>(R.id.textInputLayoutText)).editText?.text?.clear()

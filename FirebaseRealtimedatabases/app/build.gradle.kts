@@ -1,15 +1,15 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.nareshtech.roomdatabase"
+    namespace = "com.nareshtech.firebaserealtimedatabases"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.nareshtech.roomdatabase"
+        applicationId = "com.nareshtech.firebaserealtimedatabases"
         minSdk = 27
         targetSdk = 35
         versionCode = 1
@@ -37,10 +37,8 @@ android {
 }
 
 dependencies {
-    val room_version = "2.6.1"
-
-    implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:2.6.2")
+    implementation(platform("com.google.firebase:firebase-bom:33.8.0"))
+    implementation("com.google.firebase:firebase-database")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

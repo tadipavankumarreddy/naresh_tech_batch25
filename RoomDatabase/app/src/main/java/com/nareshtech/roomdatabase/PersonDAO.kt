@@ -9,11 +9,11 @@ import androidx.room.Update
 interface PersonDAO {
 
     @Insert
-    fun insertData(person: Person):Unit
+    fun insertData(person: Human):Unit
 
-    @Query("select * from person")
-    fun getAllData():List<Person>
+    @Query("select * from human")
+    fun getAllData():List<Human>
 
     @Update
-    fun updateRow(person: Person)
+    fun updateRow(person: Human)
 }

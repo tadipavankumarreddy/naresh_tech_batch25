@@ -1698,7 +1698,7 @@ Step 5: Begin communication with the database by creating the roomdatabase.
 
 ```kotlin
 class MainActivity : AppCompatActivity() {
-  
+
     lateinit var personDatabase: PersonDatabase
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -1709,3 +1709,76 @@ class MainActivity : AppCompatActivity() {
     }
 }
 ```
+
+```kotlin
+fun loadData(view: View) {
+        val data:List<Person> = personDatabase.personDao().getAllData()
+        val tv:TextView = findViewById(R.id.textViewResult)
+        tv.setText("")
+        for(i in data){
+            tv.append("${i.person_id} ${i.person_name} ${i.person_age}\n")
+        }
+    }
+
+    fun saveData(view: View) {
+        val name = (findViewById<TextInputLayout>(R.id.textInputLayoutText)).editText?.text.toString()
+        val age = (findViewById<TextInputLayout>(R.id.textInputLayoutInteger)).editText?.text.toString().toInt()
+
+        // Create a person object.
+        val person = Person(0,name, age)
+        personDatabase.personDao().insertData(person)
+
+       (findViewById<TextInputLayout>(R.id.textInputLayoutText)).editText?.text?.clear()
+       (findViewById<TextInputLayout>(R.id.textInputLayoutInteger)).editText?.text?.clear()
+
+        Snackbar.make(view,"Data Inserted Successfully",Snackbar.LENGTH_LONG).show()
+    }
+```
+
+---
+
+### Firebase for Android
+Firebase is a cloud based service which consists of a suite of tools to help developers build,grow, and monetize their android applications.  
+[Official Doc](https://firebase.google.com/)
+
+1. Realtime Databases
+   - Purpose: A NoSQL, cloud based database that allows for real time synchronization of data across all connected clients. Ideal for collaborative apps, chat applications, and situations where the data needs to be updated instantly. 
+   - Key Features: Data is stored in JSON trees. Changes are pushed to clients in real time. Supports offline capabilities.
+   - Considerations: Not Ideal for complex data relationships or very large datasets. Consider cloud firestore for more structured data and scalability.
+2. cloud Firestore
+   - Purpose: A More flexible and scalable NoSQL database than the real time databases. Also, cloud based and offers real time data synchronization.
+   - Key Features: Data is organized into collections and documents. Supports complex queries and indexing. Better scalability and data stucturing compared to Real Time databases.
+   - Considerations: More complex setup than realtime databases. 
+3. Authentication
+   - Purpose: Provides secure user Authentication methods for your app. 
+   - Key Features: Supports various providers like email/password, Google Sign in, Facebook Login, X, and more. Handles the user management and session persistence.
+   - Considerations: Essential for protecting user data and controlling access to app features. 
+4. cloud storage
+   - Purpose: Allows you to store and retrieve user-generated content like photos, videos and other files. 
+   - Key Features: Scalable storage solution. Integrates with other Firebase services. Handles file uploads and downloads efficiently.
+   - Considerations: Cost considerations for storage and bandwidth.
+5. Cloud Functions
+   - Purpose: Lets you run backend code in response to the events triggered by other firebase services or HTTP requests. 
+   - Key Features: Serverless Platform. Allows you to execute code without managing servers.Useful for tasks like sending notifications, data processing, and integrating with thrid party APIs. 
+   - Considerations: Requires understanding server side programming concepts. 
+6. Firebase cloud messaging
+   - Purpose: A Reliable and scalable way to send push notifications to the user's device. 
+   - Key Features: Target specific users or groups. Send messages for various purposes like promotions, updates or in-App Communication. 
+   - Considerations: Important for engaging users and keeping them informed. 
+7. Crashlytics
+   - Purpose: Helps you track and diagnose crashes in your app. 
+   - Key Features: Provides detailed crash reports. Helps you identify the root cause of crashes and fix them. 
+   - Considerations: Essential for improving app stabiltiy and user experience. 
+8. Performance monitoring
+   - Purpose: Allows you to monitor the performance of your app. 
+   - Key Features: Tracks metrics like app start up time, network requests, and rendering performance. Helps you identify performance bottlenecks. 
+   - Considerations: Important for optimization of your app. 
+9.  Analytics
+    - Purpose: Provides insights into how the user interacts with your app. 
+    - Key Features: Track events, user demographics, and others. 
+    - Considerations: Improve your app.
+10. Remote Config
+    - Purpose: Lets you change the behavior and appearance of your app without releasing a new version. 
+    - Key Features: Define default values and override them remotely. 
+    - Considerations: Important for quickly adapting to changing conditions and experimenting with new features.
+
