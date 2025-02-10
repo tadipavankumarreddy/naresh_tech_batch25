@@ -1782,3 +1782,19 @@ Firebase is a cloud based service which consists of a suite of tools to help dev
     - Key Features: Define default values and override them remotely. 
     - Considerations: Important for quickly adapting to changing conditions and experimenting with new features.
 
+### Scoped Storage in Android 
+
+Scoped storage was introduced in Android 10 (API 29) to improve privacy by restricting direct access to shared storage. Apps can no longer freely access the files in external storage unless they use specified APIs.
+
+#### Key Changes in Scoped Storage:
+1. Limited File Access
+   - Apps can only access their own files in `Android/data` or `Android/obb`
+   - Need Permissions (`READ_EXTERNAL_STORAGE` & `WRITE_EXTERNAL_STORAGE`) only for specific cases.
+2. New APIs for File Access
+   - MediaStore API -> For accessing images, videos, and audio files. 
+   - Storage Access Framework (SAF) -> For letting users pick files. 
+   - App-Specific Storage (getExternalFilesDir) -> for storing app-private files. 
+
+[Official Documentation](https://developer.android.com/about/versions/11/privacy/storage)
+
+
