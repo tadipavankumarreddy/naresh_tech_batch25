@@ -1797,4 +1797,90 @@ Scoped storage was introduced in Android 10 (API 29) to improve privacy by restr
 
 [Official Documentation](https://developer.android.com/about/versions/11/privacy/storage)
 
+### Coroutines
+- Co - Cooperative
+- Routine - Function
+
+- If we have multiple long running tasks, you can create multiple threads for each of them. When there are multiple threads in the background, the system may run `OutOfMemory`. We can create a single background thread and create multiple coroutines to perform the multiple background operations. By Using the memory that is required for one single thread, we can handle multiple background tasks. 
+- Light-Weight 
+- coroutine!=Thread
+- Coroutine are cheap (in terms of Memory)
+- You can create thousands of coroutines that can run in parallel, wait for each other and communicate with each other just like in case of using regular threads. 
+
+`suspend` Modifier:
+
+- A function with `suspend` modifier is known as suspending function.
+- Suspending functions can only be called from a coroutine context or from another suspending function.
+- They cannot be called from outside the coroutine context. 
+- `delay(...)` is a suspending function. delay(...) works similar to `Thread.sleep(...)`
+
+```kotlin
+delay(1000) 
+//suspends the current coroutine that is runing on a thread for 1 second. remember that it is not blocking the thread.
+
+Thread.sleep(1000)
+// This statement is blocking the thread in which it is present for 1 second.
+```
+
+### Coroutine Builders
+
+- Functions that are used to create coroutines are called coroutine builders. 
+
+**Most Important coroutine builders**
+1. launch
+   - GlobalScope.launch{...}
+     - Creates a coroutine at a global scope (App) level. This can survive the entire lifecycle of an app.
+   - launch{...}
+     - Creates a coroutine in local scope. Meaning, the coroutine created through this scope gets destroyed with in the activity.
+   - This coroutine never blocks the thread in which it is running. 
+   - Launches a new coroutine without blocking the current thread
+     - Inherits the thread & coroutine scope of the immediate parent coroutine. 
+   - launch{...} coroutine is also called as `Fire & Forget` coroutine. 
+   - launch returns a reference to `Job` Object. 
+   - using the `Job` object, you can cancel or wait for the coroutine to finish. 
+2. async
+   - GlobalScope.async{...}
+   - async{...}
+   - you can return a value after the execution of code from async coroutine where it is not possible to return a value from a launch coroutine. 
+   - Never blocks the thread
+   - Async returns `DefferedJob` Object in which we get to have the data, we can also cancel the coroutine or wait for it to return data and finish. 
+3. runBlocking
+   - This coroutine blocks the thread in which it is running. 
+
+[Official Documentation](https://developer.android.com/kotlin/coroutines)
+
+#### Dipatchers in Coroutines
+In android, coroutine dispatchers are essential in managing which threads coroutines run on. Dispatchers control the context where a coroutine will execute, allowing you to specify whether it should run on main thread, a background thread, or a custom thread pool. 
+
+1. Dispatchers.Main
+   - Purpose: Runs on main (UI) thread.
+   - Usecase: Any work that needs to interact with the UI, such as updating the views or handling user interactions, should run on this dispatcher
+  ```Kotlin
+  GlobalScope.launch(Dispatchers.Main){
+    // update the UI or respond to user interactions.
+  }
+  ```
+2. Dispatchers.IO
+   - Purpose: Optimized for I/O tasks like reading of files, writing data to databases, for network operations and etc. 
+   - Usecase: Suitable for operations that involve data handling but should not block the main thread. 
+  ```kotlin
+    GlobalScope.launch(Dispatchers.IO){
+      // Runs on IO thread
+      val data = fetchDataFromNetwork(..)
+      withContext(Dispatchers.Main){
+        // update the UI
+      }
+    }
+  ```
+3. Dispatchers.Default
+   - Purpose: Optimized for CPU Intensive work, like complex calculations, sorting and processing of large data sets.
+   - Usecase: Use this when you have tasks that require significant processing power but don't need immediate UI updates.
+  ```kotlin
+    GlobalScope.launch(Dispatchers.Default){
+      // CPU Intensive task
+    }
+  ```
+4. Dispatchers.Unconfined
+   - Purpose: starts the coroutine in the caller's thread and only switches context if it suspends. After the suspension, it resumes in the thread where it started. 
+   - Usecase: Used rarely in android. It is useful for tasks that don't require a specific thread or a dispatcher, but generally recommended to stick with other dispatchers for predictable behavior.
 
