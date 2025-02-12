@@ -1884,3 +1884,21 @@ In android, coroutine dispatchers are essential in managing which threads corout
    - Purpose: starts the coroutine in the caller's thread and only switches context if it suspends. After the suspension, it resumes in the thread where it started. 
    - Usecase: Used rarely in android. It is useful for tasks that don't require a specific thread or a dispatcher, but generally recommended to stick with other dispatchers for predictable behavior.
 
+### Flow in Kotlin
+- Flow is a cold asynchronous data stream that emits multiple values sequentially.
+- It is similar to a coroutine but "better suited for handling continous data streams" like API Polling, Database Updates, or UI Events. 
+
+**Advantages of Using Flow**
+- Multiple Values: Flow emits a stream of values over time, whereas coroutines returns a single result.
+- Backpressure handling: Flow Provides operators like `buffer()`, `conflate()`, and `collectLatest()` to manage data efficiently. 
+- Lifcycle-awareness: It cancels the stream when the UI is destroyed, preventing memory leaks. 
+
+[Official Documentation](https://developer.android.com/kotlin/flow)
+
+***🎯 Key Takeaways***
+- Flow is perfect for handling network requests
+- uses `emit()` to send API response data
+- Handle errors with `.catch{}` to avoid crashes
+- Runs network operations on `Dispatchers.IO`
+- UI updates happen safely on `Dispatchers.Main`
+
