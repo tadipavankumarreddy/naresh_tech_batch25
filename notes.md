@@ -1902,3 +1902,17 @@ In android, coroutine dispatchers are essential in managing which threads corout
 - Runs network operations on `Dispatchers.IO`
 - UI updates happen safely on `Dispatchers.Main`
 
+### Jetpack UI Compose
+[Jetpack UI Compose Docs](https://developer.android.com/compose)  
+
+Jetpack Compose is a modren android UI toolkit that simplifies and accelerates the UI development. 
+
+**Jetpack UI Compose Features**
+- Declarative: UI is built using functions instead of XML
+- State-Driven: UI updates automatically when state changes. 
+- Composables: Small UI Components (Composables) are reusable.
+
+[Slides here](https://docs.google.com/presentation/d/1PhChTOt0D7n8cRZ4czL9nhFRjATRQWhHPTN9p-pgq9w/edit#slide=id.p)
+
+- Learn About modifiers from this [document](https://developer.android.com/develop/ui/compose/modifiers)
+- 
