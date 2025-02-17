@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -61,7 +62,11 @@ class CountViewModel:ViewModel(){
 /*@Preview(showBackground = true)*/
 @Composable
 fun GenerateScreen(countViewModel: CountViewModel){
+    val isDarkTheme = isSystemInDarkTheme()
     var count = countViewModel.count
+    val textBackgroundColor = if (isDarkTheme) Color.Black else Color.Yellow
+    val textColor = if (isDarkTheme) Color.White else Color.Black
+
     val paddingModifier = Modifier.padding(WindowInsets.statusBars.asPaddingValues())
         .padding(WindowInsets.navigationBars.asPaddingValues())
         .padding(20.dp)
@@ -78,12 +83,13 @@ fun GenerateScreen(countViewModel: CountViewModel){
         }
 
         Box(modifier = Modifier.fillMaxWidth()
-            .background(Color.Yellow)
+            .background(textBackgroundColor)
             .weight(8f).border(BorderStroke(5.dp,Color.White)),
             contentAlignment = Alignment.Center)
         {
             Text(
                 text = count.toString(),
+                color = textColor,
                 fontSize = 100.sp,
                 fontWeight = FontWeight.Bold
             )
