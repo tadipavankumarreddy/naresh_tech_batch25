@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Registration JUC</string>
+    <string name="title_activity_details">DetailsActivity</string>
 </resources>
