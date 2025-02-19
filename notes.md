@@ -1915,4 +1915,125 @@ Jetpack Compose is a modren android UI toolkit that simplifies and accelerates t
 [Slides here](https://docs.google.com/presentation/d/1PhChTOt0D7n8cRZ4czL9nhFRjATRQWhHPTN9p-pgq9w/edit#slide=id.p)
 
 - Learn About modifiers from this [document](https://developer.android.com/develop/ui/compose/modifiers)
-- 
+
+### Services in Android
+
+*A Service is an application component that can perform long-running operations in the background. It does not provide a user interface. Once started, a service might continue running for some time, even after the user switches to another application. Additionally, a component can bind to a service to interact with it and even perform interprocess communication (IPC). For example, a service can handle network transactions, play music, perform file I/O, or interact with a content provider, all from the background.*
+
+**Caution: A service runs in the main thread of its hosting process; the service does not create its own thread and does not run in a separate process unless you specify otherwise. You should run any blocking operations on a separate thread within the service to avoid Application Not Responding (ANR) errors.**
+
+**Three Types of Services**
+1. Foreground Service
+   - A kind of Service that notifies the user about its running through a notification.
+   - When you use foreground service, you must display the notification so that the users are actively aware that the service is running. This notification cannot be dismissed unless the service is either stopped or removed from the foreground. 
+2. Background Service
+   - A background service performs an operation that is not directly noticed to the user. For Example, if an app used a service to compact the storage, that would usually be a background service. 
+3. Bound Services
+   - A Service is bound when an application component binds to it by calling `bindService(...)` method. A Bound service offers client server interface that allows components to interact with the service, send requests and even do so across the processes leading to IPC (Inter process communication)
+
+[Official Documentation](https://developer.android.com/develop/background-work/services)
+
+#### Service Lifecycle
+![Service Lifecycle](/service_lifecycle.png)
+
+**Important Methods in Services**
+- onStartCommand()
+  - The system invokes it by calling `startService(...)` when another component (such as an Activity or a Fragment) requests that the service be started. 
+  - When this method executes, the service is started and can run in the background indefinitely. 
+  - If you implement this, It is your responsibility to stop the service when its work is done by calling `stopService(...)`.
+  - A service can also stop itself if it encounters a method called `stopSelf()`
+  - If you only want to provide binding [for bound services], you don't need to implement this method. 
+- onBind(...)
+  - The system invokes this method by calling `bindService(...)` when another app component want to bind with the service (to perform RPC)
+  - In your implementation of this method, you must provide an interface that clients use to communicate with the service by returning an IBinder object. 
+  - You must always implement this method; However, if you don't want to allow binding you should retun null.
+
+[Media Player API](https://developer.android.com/reference/android/media/MediaPlayer)
+
+[Learn about return constants of onStartCommand(...)](https://developer.android.com/reference/android/app/Service#START_NOT_STICKY)
+
+### Testing in Android
+
+When you implemented your first feature in android app, you ran your application on a physical device and also sometimes on emulator to verify if the code works as expected. This means you already tested an application, albeit a manual test. 
+
+**Types of Tests**
+- Functional Testing : Does my app do what it's supposed to do ?
+- Performance Testing : Does it do it quickly and efficiently ?
+- Accessibility Testing : Does it work well with accessibility services ?
+
+**Scope**
+- Tests vary depending on the size, or degree of isolation
+  - Unit Testing : These are called small tests. These tests will only verify a small portion of your application such as method or a class. 
+  - End to End Testing : We may test the entire or screen or userflow. 
+  - Integration Testing: If you have more modules and doing integration, these tests are really helpful. These are also called `medium Tests`
+
+- [Mockito Framework](https://site.mockito.org/)
+- [Roboelectric by Google](https://developer.android.com/training/testing/local-tests/robolectric)
+- [Official Documentation to get started](https://developer.android.com/training/testing/fundamentals)
+
+### Build Flavors
+You can make the same app available in multiple Flavors such as (free & Paid). You do not need to create two different projects and everything can be done under one single project using build flavors. 
+
+Add this to build.gradle (app:Module), to create two flavors of the same appplication namely "demo" and "paid".
+
+```kotlin
+ flavorDimensions += "version"
+    productFlavors {
+        create("demo") {
+            dimension = "version"
+            applicationIdSuffix = ".demo"
+            versionNameSuffix = "-demo"
+        }
+        create("full") {
+            dimension = "version"
+            applicationIdSuffix = ".paid"
+            versionNameSuffix = "-paid"
+        }
+    }
+```
+
+### Types of Location Access in android
+In Android, you can control location access in different ways, allowing users to choose how and when the app can access their location
+
+1. Allow Only while using the app
+   - Also known as "While-in-use" or "Foreground only" access.
+   - Added in android 10
+   - Allows location access only when the app is actively used.
+2. Allow One-Time
+   - Grants location access for single session. when the user closed the app, access is revoked. 
+3. Allow All The Time
+   - Provides the background access to the users location at any time. 
+   - Note: Your app must comply with the [Google Location Policies](https://support.google.com/googleplay/android-developer/answer/9799150?hl=en) for background location access.
+4. Deny
+   - The users can deny location access, preventing the app from accessing the location data. 
+
+#### Location Providers in Android
+Primarily android uses two location providers
+1. NETWORK_PROVIDER
+   - Retrives location based on cell-towers, Wi-Fi and other network signals.
+   - Require `ACCESS_COARSE_LOCATION` permission.
+2. GPS_PROVIDER
+   - Provides location data based on satellite signals for high accuracy. 
+   - requires `ACCESS_FINE_LOCATION` permission. 
+
+your app can access supported location services using classes in `com.google.android.gms.location` package. 
+
+**Key Classes for Location in Android**
+1. FusedLocationProviderClient
+   - The central component of the Location Framework. 
+   - Use this class to request location update and retrieve last known location.
+2. LocationRequest
+   - A Data object containing parameters like update intervals, priority and accuracy.
+   - pass this object to `FusedLocationProviderClient` to specify the conditions for location updates. 
+3. LocationCallback
+   - Used to retrieve notifications when the device's location changes or becomes unavailable. 
+   - Pass this as callback to `LocationResult` to capture and handle location data. 
+
+#### Assignment last
+Explore Geo Fencing API and Google Places API on Google cloud console. 
+
+Please refer my free ebook on [Android application development using Java](https://android-app-development-documentation.readthedocs.io/en/latest/)
+
+---
+THE END
+---
